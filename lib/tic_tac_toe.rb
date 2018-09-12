@@ -65,7 +65,7 @@ def won(board)
   WIN_COMBINATIONS.each do | win |
     if win.all? == "X"
       winner = win
-    else 
+    else
       if win.all? == "O"
         winner = win
       end # of else if
