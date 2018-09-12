@@ -42,11 +42,75 @@ def turn(board, player)
   if valid_move(board, index)
     move(board,index,player)
     display_board(board)
-    (player == "X") ? player = "O" : player = "X"
-  else  
+  else
     turn(board, player)
   end
 end
 
+def turn_count(board)
+   number = 0
+   board.each do |cell|
+     if cell == "X" || cell == "O"
+       number += 1
+     end  # of if
+   end # of .each
+ end # of def
 
-  
+def current_player(board)
+  turn_count(board)%2 == 0 ? player = "X" : player = "O"
+end
+
+def won(board)
+  winner = false
+  WIN_COMBINATIONS.each do | win |
+    if win.all? == "X"
+      winner = win
+    else 
+      if win.all? == "O"
+        winner = win
+      end # of else if
+    end  #of if
+  end # of each do
+  winner
+end  # of def
+
+
+def full(board)
+  is_full = true
+  for i in (0..8)
+    if board[i] != "X" || board[i] != "O"
+      is_full = false
+    end
+  end
+  is_full
+end
+
+def draw(board)
+  full(board) && !won(board)
+end
+
+def over(board)
+  won(board).class = string || draw(board) || full(board)
+end
+
+def winner(board)
+  winning_three = won(board)
+  winning_three[0]
+end
+
+def play
+  board = [ " ", " ", " ",
+            " ", " ", " ",
+            " ", " ", " "]
+  until over(board)
+    turn(board, current_player(board))
+  end
+
+  if won(board)
+    puts "Congratulations, #{winner}!"
+  else
+    if draw(board)
+      puts "Cat's game!"
+    end
+  end
+end
